@@ -14,7 +14,8 @@
     },
     "scripts": {
         "post-update-cmd": "@setup",
-        "post-install-cmd": "@setup"
+        "post-install-cmd": "@setup",
+        "setup": "Mindtwo\\ValetDrivers\\Kernel::setup"
     },
     "bin": ["bin/mindtwo-valet-drivers"]
 }
