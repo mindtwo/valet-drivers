@@ -1,5 +1,5 @@
 {
-    "name": "mindtwo/mindtwo-valet-drivers",
+    "name": "mindtwo/valet-drivers",
     "type": "library",
     "prefer-stable": true,
     "license": "proprietary",
@@ -7,7 +7,7 @@
         "post-update-cmd": [
             "php -r \"symlink('MindtwoAwsBedrockValetDriver.php', '~/.config/valet/Drivers/MindtwoAwsBedrockValetDriver.php');\"",
             "php -r \"symlink('MindtwoTypo3ValetDriver.php', '~/.config/valet/Drivers/MindtwoTypo3ValetDriver.php');\"",
-            "php -r \"symlink('MindtwoWordPressValetDriver.php', '~/.config/valet/Drivers/MindtwoWordPressValetDriver.php');\"",
+            "php -r \"symlink('MindtwoWordPressValetDriver.php', '~/.config/valet/Drivers/MindtwoWordPressValetDriver.php');\""
         ]
     }   
 }
