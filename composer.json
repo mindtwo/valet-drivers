@@ -12,10 +12,5 @@
     "require": {
         "laravel/valet": "^2.8"
     },
-    "scripts": {
-        "post-update-cmd": "@setup",
-        "post-install-cmd": "@setup",
-        "setup": "Mindtwo\\ValetDrivers\\Kernel::setup"
-    },
     "bin": ["bin/mindtwo-valet-drivers"]
 }
