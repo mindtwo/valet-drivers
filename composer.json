@@ -1,13 +1,20 @@
 {
     "name": "mindtwo/valet-drivers",
+    "description": "Ship custom valet drivers with a command to automatically install them.",
     "type": "library",
     "prefer-stable": true,
-    "license": "proprietary",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Mindtwo\\ValetDrivers\\": "src/"
+        }
+    },
+    "require": {
+        "laravel/valet": "^2.8"
+    },
     "scripts": {
-        "post-update-cmd": [
-            "php -r \"symlink('MindtwoAwsBedrockValetDriver.php', '~/.config/valet/Drivers/MindtwoAwsBedrockValetDriver.php');\"",
-            "php -r \"symlink('MindtwoTypo3ValetDriver.php', '~/.config/valet/Drivers/MindtwoTypo3ValetDriver.php');\"",
-            "php -r \"symlink('MindtwoWordPressValetDriver.php', '~/.config/valet/Drivers/MindtwoWordPressValetDriver.php');\""
-        ]
-    }   
+        "post-update-cmd": "@setup",
+        "post-install-cmd": "@setup"
+    },
+    "bin": ["bin/mindtwo-valet-drivers"]
 }
