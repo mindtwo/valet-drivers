@@ -12,7 +12,7 @@ class MindtwoWordPressValetDriver extends ValetDriver
      */
     public function serves($sitePath, $siteName, $uri)
     {
-        return file_exists($sitePath.'/public/index.php') && file_exists($sitePath.'/public/content/index.php');
+        return file_exists($sitePath.'/public/wp-config.php') && is_dir($sitePath.'/public/wp') && is_dir($sitePath.'/bootstrap');
     }
 
     /**
