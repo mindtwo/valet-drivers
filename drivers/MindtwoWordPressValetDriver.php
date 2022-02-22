@@ -59,6 +59,10 @@ class MindtwoWordPressValetDriver extends ValetDriver
                             : $sitePath.'/public'.$uri;
         }
         
+        if (strpos($uri, '/lumen/') === 0) {
+            return $sitePath.'/public/lumen/index.php';
+        }
+        
         if($uri !== '/' && file_exists($sitePath.'/public'.$uri)) {
             return $sitePath.'/public'.$uri;
         }
