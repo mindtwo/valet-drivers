@@ -12,7 +12,8 @@ class MindtwoWordPressValetDriver extends ValetDriver
      */
     public function serves($sitePath, $siteName, $uri)
     {
-        return file_exists($sitePath.'/public/wp-config.php') && is_dir($sitePath.'/public/wp') && is_dir($sitePath.'/bootstrap');
+        $wpDirExists = (is_dir($sitePath.'/public/wp') || is_dir($sitePath.'/public/wp-system'));
+        return is_dir($sitePath.'/bootstrap') && file_exists($sitePath.'/public/wp-config.php') && $wpDirExists;
     }
 
     /**
@@ -25,16 +26,14 @@ class MindtwoWordPressValetDriver extends ValetDriver
      */
     public function isStaticFile($sitePath, $siteName, $uri)
     {
-        $staticFilePath = $sitePath.'/public'.$uri;
-
-        if ($this->isActualFile($staticFilePath)) {
-            return $staticFilePath;
-        }
-
-        $staticFilePath = $sitePath.'/public/wp'.$uri;
-
-        if ($this->isActualFile($staticFilePath)) {
-            return $staticFilePath;
+        foreach ([
+            $sitePath.'/public'.$uri,
+            $sitePath.'/public/wp'.$uri,
+            $sitePath.'/public/wp-system'.$uri,
+        ] as $staticFilePath) {
+            if ($this->isActualFile($staticFilePath)) {
+                return $staticFilePath;
+            }
         }
 
         return false;
@@ -58,11 +57,17 @@ class MindtwoWordPressValetDriver extends ValetDriver
                             ? $sitePath.'/public'.$this->forceTrailingSlash($uri).'/index.php'
                             : $sitePath.'/public'.$uri;
         }
-        
+
+        if (strpos($uri, '/wp-system/') === 0) {
+            return is_dir($sitePath.'/public'.$uri)
+                ? $sitePath.'/public'.$this->forceTrailingSlash($uri).'/index.php'
+                : $sitePath.'/public'.$uri;
+        }
+
         if (strpos($uri, '/lumen/') === 0) {
             return $sitePath.'/public/lumen/index.php';
         }
-        
+
         if($uri !== '/' && file_exists($sitePath.'/public'.$uri)) {
             return $sitePath.'/public'.$uri;
         }
@@ -79,6 +84,10 @@ class MindtwoWordPressValetDriver extends ValetDriver
     private function forceTrailingSlash($uri)
     {
         if (substr($uri, -1 * strlen('/wp/wp-admin')) == '/wp/wp-admin') {
+            header('Location: '.$uri.'/'); die;
+        }
+
+        if (substr($uri, -1 * strlen('/wp-system/wp-admin')) == '/wp-system/wp-admin') {
             header('Location: '.$uri.'/'); die;
         }
 
