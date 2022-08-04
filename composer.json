@@ -10,7 +10,7 @@
         }
     },
     "require": {
-        "laravel/valet": "^2.8"
+        "laravel/valet": "^3.1"
     },
     "bin": ["bin/mindtwo-valet-drivers"]
 }
