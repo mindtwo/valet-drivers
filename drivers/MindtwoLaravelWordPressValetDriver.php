@@ -64,6 +64,10 @@ class MindtwoLaravelWordPressValetDriver extends ValetDriver
                 : $sitePath.'/public'.$uri;
         }
 
+        if (strpos($uri, '/blog/wp-json/') === 0) {
+            return $sitePath.'/public/blog/index.php';
+        }
+
         if($uri !== '/' && file_exists($sitePath.'/public'.$uri)) {
             return $sitePath.'/public'.$uri;
         }
