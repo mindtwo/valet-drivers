@@ -1,5 +1,7 @@
 <?php
 
+use Valet\Drivers\ValetDriver;
+
 class MindtwoVnrLaravelValetDriver extends ValetDriver
 {
     /**
