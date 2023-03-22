@@ -1,5 +1,7 @@
 <?php
 
+namespace Valet\Drivers\Custom;
+
 use Valet\Drivers\ValetDriver;
 
 /**
@@ -48,7 +50,7 @@ class MindtwoTypo3ValetDriver extends ValetDriver
      * @param  string  $uri
      * @return bool
      */
-    public function serves($sitePath, $siteName, $uri)
+    public function serves(string $sitePath, string $siteName, string $uri): bool
     {
         $typo3Dir = $sitePath.$this->documentRoot.'/typo3';
 
@@ -65,7 +67,7 @@ class MindtwoTypo3ValetDriver extends ValetDriver
      * @param  string  $uri
      * @return string|false
      */
-    public function isStaticFile($sitePath, $siteName, $uri)
+    public function isStaticFile(string $sitePath, string $siteName, string $uri)/*: string|false */
     {
         // May the file contains a cache busting version string like filename.12345678.css
         // If that is the case, the file cannot be found on disk, so remove the version
@@ -112,7 +114,7 @@ class MindtwoTypo3ValetDriver extends ValetDriver
      * @param  string  $uri
      * @return string
      */
-    public function frontControllerPath($sitePath, $siteName, $uri)
+    public function frontControllerPath(string $sitePath, string $siteName, string $uri): ?string
     {
         // without modifying the URI, redirect if necessary
         $this->handleRedirectBackendShorthandUris($uri);

@@ -1,5 +1,7 @@
 <?php
 
+namespace Valet\Drivers\Custom;
+
 use Valet\Drivers\ValetDriver;
 
 class MindtwoWordPressValetDriver extends ValetDriver
@@ -12,7 +14,7 @@ class MindtwoWordPressValetDriver extends ValetDriver
      * @param  string  $uri
      * @return bool
      */
-    public function serves($sitePath, $siteName, $uri)
+    public function serves(string $sitePath, string $siteName, string $uri): bool
     {
         $wpDirExists = (is_dir($sitePath.'/public/wp') || is_dir($sitePath.'/public/wp-system'));
         return is_dir($sitePath.'/bootstrap') && file_exists($sitePath.'/public/wp-config.php') && $wpDirExists;
@@ -26,7 +28,7 @@ class MindtwoWordPressValetDriver extends ValetDriver
      * @param  string  $uri
      * @return string|false
      */
-    public function isStaticFile($sitePath, $siteName, $uri)
+    public function isStaticFile(string $sitePath, string $siteName, string $uri)/*: string|false */
     {
         foreach ([
             $sitePath.'/public'.$uri,
@@ -49,7 +51,7 @@ class MindtwoWordPressValetDriver extends ValetDriver
      * @param  string  $uri
      * @return string
      */
-    public function frontControllerPath($sitePath, $siteName, $uri)
+    public function frontControllerPath(string $sitePath, string $siteName, string $uri): ?string
     {
         $_SERVER['PHP_SELF'] = $uri;
         $_SERVER['SERVER_NAME'] = $_SERVER['HTTP_HOST'];

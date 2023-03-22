@@ -1,5 +1,7 @@
 <?php
 
+namespace Valet\Drivers\Custom;
+
 use Valet\Drivers\ValetDriver;
 
 class MindtwoVnrLaravelValetDriver extends ValetDriver
@@ -12,7 +14,7 @@ class MindtwoVnrLaravelValetDriver extends ValetDriver
      * @param  string  $uri
      * @return bool
      */
-    public function serves($sitePath, $siteName, $uri)
+    public function serves(string $sitePath, string $siteName, string $uri): bool
     {
         return file_exists($sitePath.'/src/artisan') && file_exists($sitePath.'/src/public/index.php');
     }
@@ -25,7 +27,7 @@ class MindtwoVnrLaravelValetDriver extends ValetDriver
      * @param  string  $uri
      * @return string|false
      */
-    public function isStaticFile($sitePath, $siteName, $uri)
+    public function isStaticFile(string $sitePath, string $siteName, string $uri)/*: string|false */
     {
         if (file_exists($staticFilePath = $sitePath.'/src/public'.$uri)
            && is_file($staticFilePath)) {
@@ -53,7 +55,7 @@ class MindtwoVnrLaravelValetDriver extends ValetDriver
      * @param  string  $uri
      * @return string
      */
-    public function frontControllerPath($sitePath, $siteName, $uri)
+    public function frontControllerPath(string $sitePath, string $siteName, string $uri): ?string
     {
         // Shortcut for getting the "local" hostname as the HTTP_HOST
         if (isset($_SERVER['HTTP_X_ORIGINAL_HOST'], $_SERVER['HTTP_X_FORWARDED_HOST'])) {

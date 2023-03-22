@@ -1,5 +1,7 @@
 <?php
 
+namespace Valet\Drivers\Custom;
+
 use Valet\Drivers\ValetDriver;
 
 class MindtwoBasicValetDriver extends ValetDriver
@@ -12,7 +14,7 @@ class MindtwoBasicValetDriver extends ValetDriver
      * @param  string  $uri
      * @return bool
      */
-    public function serves($sitePath, $siteName, $uri)
+    public function serves(string $sitePath, string $siteName, string $uri): bool
     {
         return is_dir($sitePath.'/public') && is_dir($sitePath.'/inc');
     }
@@ -25,7 +27,7 @@ class MindtwoBasicValetDriver extends ValetDriver
      * @param  string  $uri
      * @return string|false
      */
-    public function isStaticFile($sitePath, $siteName, $uri)
+    public function isStaticFile(string $sitePath, string $siteName, string $uri)/*: string|false */
     {
         if (file_exists($staticFilePath = $sitePath.'/public'.rtrim($uri, '/').'/index.html')) {
             return $staticFilePath;
@@ -48,7 +50,7 @@ class MindtwoBasicValetDriver extends ValetDriver
      * @param  string  $uri
      * @return string
      */
-    public function frontControllerPath($sitePath, $siteName, $uri)
+    public function frontControllerPath(string $sitePath, string $siteName, string $uri): ?string
     {
         $_SERVER['PHP_SELF'] = $uri;
         $_SERVER['SERVER_ADDR'] = '127.0.0.1';

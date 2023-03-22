@@ -1,5 +1,7 @@
 <?php
 
+namespace Valet\Drivers\Custom;
+
 use Valet\Drivers\ValetDriver;
 
 class MindtwoAwsBedrockValetDriver extends ValetDriver
@@ -12,7 +14,7 @@ class MindtwoAwsBedrockValetDriver extends ValetDriver
      * @param  string  $uri
      * @return bool
      */
-    public function serves($sitePath, $siteName, $uri)
+    public function serves(string $sitePath, string $siteName, string $uri): bool
     {
         return file_exists($sitePath.'/src/web/index.php') && file_exists($sitePath.'/src/web/wp-config.php');
     }
@@ -25,7 +27,7 @@ class MindtwoAwsBedrockValetDriver extends ValetDriver
      * @param  string  $uri
      * @return string|false
      */
-    public function isStaticFile($sitePath, $siteName, $uri)
+    public function isStaticFile(string $sitePath, string $siteName, string $uri)/*: string|false */
     {
         $staticFilePath = $sitePath.'/src/web'.$uri;
 
@@ -44,7 +46,7 @@ class MindtwoAwsBedrockValetDriver extends ValetDriver
      * @param  string  $uri
      * @return string
      */
-    public function frontControllerPath($sitePath, $siteName, $uri)
+    public function frontControllerPath(string $sitePath, string $siteName, string $uri): ?string
     {
         $_SERVER['PHP_SELF'] = $uri;
         $_SERVER['SERVER_NAME'] = $_SERVER['HTTP_HOST'];
