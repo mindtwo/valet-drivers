@@ -9,8 +9,11 @@
             "Mindtwo\\ValetDrivers\\": "src/"
         }
     },
+    "bin": ["bin/mindtwo-valet-drivers"],
     "require": {
-        "laravel/valet": "^4.0"
+        "symfony/console": "^6.4"
     },
-    "bin": ["bin/mindtwo-valet-drivers"]
+    "require-dev": {
+        "laravel/valet": "^4.6"
+    }
 }
