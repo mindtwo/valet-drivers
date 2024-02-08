@@ -21,6 +21,8 @@ class UninstallDriversCommand extends Command
      */
     protected static $defaultDescription = 'Uninstall the custom valet drivers used for mindtwo projects. If no option is set, we will remove the drivers from both valet and herd.';
 
+    private OutputInterface $output;
+
     protected function configure(): void
     {
         $this
@@ -38,6 +40,9 @@ class UninstallDriversCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        // Store the output interface for later use
+        $this->output = $output;
+
         $output->writeln('Uninstalling custom valet drivers...');
 
         if ($input->getOption('no-valet') && $input->getOption('no-herd')) {
@@ -60,7 +65,7 @@ class UninstallDriversCommand extends Command
         }
 
         foreach ($uninstallPaths as $uninstallPath) {
-            $this->removeDriversFromDirectory($uninstallPath, $output);
+            $this->removeDriversFromDirectory($uninstallPath);
         }
 
         $output->writeln('Custom valet drivers uninstalled.');
@@ -68,11 +73,11 @@ class UninstallDriversCommand extends Command
         return Command::SUCCESS;
     }
 
-    private function removeDriversFromDirectory(string $path, OutputInterface $outputInterface): void
+    private function removeDriversFromDirectory(string $path): void
     {
-        $outputInterface->writeln('Removing drivers from ' . $path);
+        $this->output->writeln('Removing drivers from ' . $path);
         if (!is_dir($path)) {
-            $outputInterface->writeln('The specified path does not exist. Nothing to do...', OutputInterface::VERBOSITY_VERBOSE);
+            $this->output->writeln('The specified path does not exist. Nothing to do...', OutputInterface::VERBOSITY_VERBOSE);
             return;
         }
 
@@ -88,7 +93,7 @@ class UninstallDriversCommand extends Command
                 continue;
             }
 
-            $outputInterface->writeln(sprintf('Removing Driver: %s', $filename), OutputInterface::VERBOSITY_VERBOSE);
+            $this->output->writeln(sprintf('Removing Driver: %s', $filename), OutputInterface::VERBOSITY_VERBOSE);
 
             unlink($path . $filename);
         }

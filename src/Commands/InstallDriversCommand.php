@@ -21,6 +21,9 @@ class InstallDriversCommand extends Command
      */
     protected static $defaultDescription = 'Install the custom valet drivers used for mindtwo projects.';
 
+
+    private OutputInterface $output;
+
     protected function configure(): void
     {
         $this
@@ -39,6 +42,9 @@ class InstallDriversCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        // Store the output interface for later use
+        $this->output = $output;
+
         $output->writeln('Installing custom valet drivers...');
 
         // Per default, we install the drivers for Laravel Valet
@@ -55,21 +61,21 @@ class InstallDriversCommand extends Command
             $output->writeln(sprintf('Argument `path` detected. Installing drivers to %s.', $targetPath));
         }
 
-        $this->installDriversToPath($targetPath, $output);
+        $this->installDriversToPath($targetPath);
 
         $output->writeln('Custom valet drivers installed. 🚀🚀');
 
         return Command::SUCCESS;
     }
 
-    private function installDriversToPath(string $path, OutputInterface $outputInterface): void
+    private function installDriversToPath(string $path): void
     {
         $sourcePath = __DIR__ . '/../../drivers/';
 
 
-        $outputInterface->writeln('Installing drivers to ' . $path);
+        $this->output->writeln('Installing drivers to ' . $path);
         if (!is_dir($path)) {
-            $outputInterface->writeln('The specified path does not exist. Creating it...', OutputInterface::VERBOSITY_VERBOSE);
+            $this->output->writeln('The specified path does not exist. Creating it...', OutputInterface::VERBOSITY_VERBOSE);
             mkdir($path, 0755, true);
         }
 
@@ -85,7 +91,7 @@ class InstallDriversCommand extends Command
                 unlink($path . $filename);
             }
 
-            $outputInterface->writeln(sprintf('Installing Driver: %s', $filename), OutputInterface::VERBOSITY_VERBOSE);
+            $this->output->writeln(sprintf('Installing Driver: %s', $filename), OutputInterface::VERBOSITY_VERBOSE);
 
             symlink(
                 $sourcePath . $filename,
