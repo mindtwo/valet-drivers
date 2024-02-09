@@ -8,24 +8,17 @@ class MindtwoLaravelWordPressValetDriver extends ValetDriver
 {
     /**
      * Determine if the driver serves the request.
-     *
-     * @param  string  $sitePath
-     * @param  string  $siteName
-     * @param  string  $uri
-     * @return bool
      */
     public function serves(string $sitePath, string $siteName, string $uri): bool
     {
         $wpDirExists = (is_dir($sitePath.'/public/blog/wp-systems') || is_dir($sitePath.'/public/blog/wp-system'));
+
         return is_dir($sitePath.'/bootstrap') && file_exists($sitePath.'/public/blog/wp-config.php') && $wpDirExists;
     }
 
     /**
      * Determine if the incoming request is for a static file.
      *
-     * @param  string  $sitePath
-     * @param  string  $siteName
-     * @param  string  $uri
      * @return string|false
      */
     public function isStaticFile(string $sitePath, string $siteName, string $uri)/*: string|false */
@@ -45,11 +38,6 @@ class MindtwoLaravelWordPressValetDriver extends ValetDriver
 
     /**
      * Get the fully resolved path to the application's front controller.
-     *
-     * @param  string  $sitePath
-     * @param  string  $siteName
-     * @param  string  $uri
-     * @return string
      */
     public function frontControllerPath(string $sitePath, string $siteName, string $uri): ?string
     {
@@ -72,7 +60,7 @@ class MindtwoLaravelWordPressValetDriver extends ValetDriver
             return $sitePath.'/public/blog/index.php';
         }
 
-        if($uri !== '/' && file_exists($sitePath.'/public'.$uri)) {
+        if ($uri !== '/' && file_exists($sitePath.'/public'.$uri)) {
             return $sitePath.'/public'.$uri;
         }
 
@@ -82,17 +70,19 @@ class MindtwoLaravelWordPressValetDriver extends ValetDriver
     /**
      * Redirect to uri with trailing slash.
      *
-     * @param  string $uri
+     * @param  string  $uri
      * @return string
      */
     private function forceTrailingSlash($uri)
     {
         if (substr($uri, -1 * strlen('/blog/wp/wp-admin')) == '/blog/wp/wp-admin') {
-            header('Location: '.$uri.'/'); die;
+            header('Location: '.$uri.'/');
+            exit;
         }
 
         if (substr($uri, -1 * strlen('/blog/wp-system/wp-admin')) == '/blog/wp-system/wp-admin') {
-            header('Location: '.$uri.'/'); die;
+            header('Location: '.$uri.'/');
+            exit;
         }
 
         return $uri;

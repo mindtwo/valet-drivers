@@ -1,6 +1,6 @@
 {
     "name": "mindtwo/valet-drivers",
-    "description": "Ship custom valet drivers with a command to automatically install them.",
+    "description": "Ship our custom agency valet drivers with a command to automatically install them.",
     "type": "library",
     "prefer-stable": true,
     "license": "MIT",
@@ -9,8 +9,13 @@
             "Mindtwo\\ValetDrivers\\": "src/"
         }
     },
+    "bin": ["bin/mindtwo-valet-drivers"],
     "require": {
-        "laravel/valet": "^4.0"
+        "php": "^8.1",
+        "symfony/console": "^6.4"
     },
-    "bin": ["bin/mindtwo-valet-drivers"]
+    "require-dev": {
+        "laravel/valet": "^4.6",
+        "laravel/pint": "^1.13"
+    }
 }

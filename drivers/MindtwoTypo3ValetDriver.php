@@ -44,11 +44,6 @@ class MindtwoTypo3ValetDriver extends ValetDriver
     /**
      * Determine if the driver serves the request. For TYPO3, this is the
      * case, if a folder called "typo3" is present in the document root.
-     *
-     * @param  string  $sitePath
-     * @param  string  $siteName
-     * @param  string  $uri
-     * @return bool
      */
     public function serves(string $sitePath, string $siteName, string $uri): bool
     {
@@ -62,9 +57,6 @@ class MindtwoTypo3ValetDriver extends ValetDriver
      * no PHP script file and the URI points to a valid file (no folder) on
      * the disk. Access to those static files will be authorized.
      *
-     * @param  string  $sitePath
-     * @param  string  $siteName
-     * @param  string  $uri
      * @return string|false
      */
     public function isStaticFile(string $sitePath, string $siteName, string $uri)/*: string|false */
@@ -108,11 +100,6 @@ class MindtwoTypo3ValetDriver extends ValetDriver
      * Get the fully resolved path to the application's front controller.
      * This can be the currently requested PHP script, a folder that
      * contains an index.php or the global index.php otherwise.
-     *
-     * @param  string  $sitePath
-     * @param  string  $siteName
-     * @param  string  $uri
-     * @return string
      */
     public function frontControllerPath(string $sitePath, string $siteName, string $uri): ?string
     {

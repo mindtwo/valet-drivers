@@ -8,11 +8,6 @@ class MindtwoAwsBedrockValetDriver extends ValetDriver
 {
     /**
      * Determine if the driver serves the request.
-     *
-     * @param  string  $sitePath
-     * @param  string  $siteName
-     * @param  string  $uri
-     * @return bool
      */
     public function serves(string $sitePath, string $siteName, string $uri): bool
     {
@@ -22,9 +17,6 @@ class MindtwoAwsBedrockValetDriver extends ValetDriver
     /**
      * Determine if the incoming request is for a static file.
      *
-     * @param  string  $sitePath
-     * @param  string  $siteName
-     * @param  string  $uri
      * @return string|false
      */
     public function isStaticFile(string $sitePath, string $siteName, string $uri)/*: string|false */
@@ -40,11 +32,6 @@ class MindtwoAwsBedrockValetDriver extends ValetDriver
 
     /**
      * Get the fully resolved path to the application's front controller.
-     *
-     * @param  string  $sitePath
-     * @param  string  $siteName
-     * @param  string  $uri
-     * @return string
      */
     public function frontControllerPath(string $sitePath, string $siteName, string $uri): ?string
     {
@@ -56,8 +43,8 @@ class MindtwoAwsBedrockValetDriver extends ValetDriver
                             ? $sitePath.'/src/web'.$this->forceTrailingSlash($uri).'/index.php'
                             : $sitePath.'/src/web'.$uri;
         }
-        
-        if($uri !== '/' && file_exists($sitePath.'/src/web'.$uri)) {
+
+        if ($uri !== '/' && file_exists($sitePath.'/src/web'.$uri)) {
             return $sitePath.'/src/web'.$uri;
         }
 
@@ -67,13 +54,14 @@ class MindtwoAwsBedrockValetDriver extends ValetDriver
     /**
      * Redirect to uri with trailing slash.
      *
-     * @param  string $uri
+     * @param  string  $uri
      * @return string
      */
     private function forceTrailingSlash($uri)
     {
         if (substr($uri, -1 * strlen('/wp/wp-admin')) == '/wp/wp-admin') {
-            header('Location: '.$uri.'/'); die;
+            header('Location: '.$uri.'/');
+            exit;
         }
 
         return $uri;
