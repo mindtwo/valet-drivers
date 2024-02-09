@@ -8,9 +8,8 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class UninstallDriversCommand extends Command
+class UninstallDriversCommand extends BaseCommand
 {
-
     /**
      * @var string
      */
@@ -19,23 +18,20 @@ class UninstallDriversCommand extends Command
     /**
      * @var string
      */
-    protected static $defaultDescription = 'Uninstall the custom valet drivers used for mindtwo projects. If no option is set, we will remove the drivers from both valet and herd.';
+    protected static $defaultDescription = 'Removes mindtwo custom valet drivers from both Valet and Herd unless specified otherwise.';
 
     private OutputInterface $output;
 
     protected function configure(): void
     {
         $this
-            ->addOption('valet', null, InputOption::VALUE_NEGATABLE, 'Skip valet if option is negated. If it is set we will only remove the drivers from the valet directory.')
-            ->addOption('herd', null, InputOption::VALUE_NEGATABLE, 'Skip herd if option is negated. If it is set we will only remove the drivers from the herd directory.')
-        ;
+            ->addOption('valet', null, InputOption::VALUE_NEGATABLE, 'Remove drivers from the Valet directory; negating skips Valet.')
+            ->addOption('herd', null, InputOption::VALUE_NEGATABLE, 'Remove drivers from the Herd directory; negating skips Herd.');
     }
 
     /**
      * Execute the command
      *
-     * @param  InputInterface  $input
-     * @param  OutputInterface $output
      * @return int 0 if everything went fine, or an exit code.
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -47,18 +43,19 @@ class UninstallDriversCommand extends Command
 
         if ($input->getOption('no-valet') && $input->getOption('no-herd')) {
             $output->writeln('You cannot skip both valet and herd. Please specify at least one of them.', OutputInterface::VERBOSITY_VERBOSE);
+
             return Command::FAILURE;
         }
 
         $uninstallPaths = [];
 
-        if ($input->getOption('herd') || (!$input->getOption('herd') && !$input->getOption('no-herd'))) {
+        if ($input->getOption('herd') || (! $input->getOption('herd') && ! $input->getOption('no-herd'))) {
             $uninstallPaths[] = $this->getHerdDirectory();
         } else {
             $output->writeln('Skipping herd drivers...');
         }
 
-        if ($input->getOption('valet') || (!$input->getOption('valet') && !$input->getOption('no-valet'))) {
+        if ($input->getOption('valet') || (! $input->getOption('valet') && ! $input->getOption('no-valet'))) {
             $uninstallPaths[] = $this->getValetDirectory();
         } else {
             $output->writeln('Skipping valet drivers...');
@@ -75,9 +72,10 @@ class UninstallDriversCommand extends Command
 
     private function removeDriversFromDirectory(string $path): void
     {
-        $this->output->writeln('Removing drivers from ' . $path);
-        if (!is_dir($path)) {
+        $this->output->writeln('Removing drivers from '.$path);
+        if (! is_dir($path)) {
             $this->output->writeln('The specified path does not exist. Nothing to do...', OutputInterface::VERBOSITY_VERBOSE);
+
             return;
         }
 
@@ -95,18 +93,7 @@ class UninstallDriversCommand extends Command
 
             $this->output->writeln(sprintf('Removing Driver: %s', $filename), OutputInterface::VERBOSITY_VERBOSE);
 
-            unlink($path . $filename);
+            unlink($path.$filename);
         }
     }
-
-    private function getHerdDirectory(): string
-    {
-        return getenv('HOME') . '/Library/Application Support/Herd/config/valet/Drivers/';
-    }
-
-    private function getValetDirectory(): string
-    {
-        return getenv('HOME') . '/.config/valet/Drivers/';
-    }
-
 }

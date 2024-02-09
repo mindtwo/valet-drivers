@@ -8,11 +8,6 @@ class MindtwoBasicValetDriver extends ValetDriver
 {
     /**
      * Determine if the driver serves the request.
-     *
-     * @param  string  $sitePath
-     * @param  string  $siteName
-     * @param  string  $uri
-     * @return bool
      */
     public function serves(string $sitePath, string $siteName, string $uri): bool
     {
@@ -22,9 +17,6 @@ class MindtwoBasicValetDriver extends ValetDriver
     /**
      * Determine if the incoming request is for a static file.
      *
-     * @param  string  $sitePath
-     * @param  string  $siteName
-     * @param  string  $uri
      * @return string|false
      */
     public function isStaticFile(string $sitePath, string $siteName, string $uri)/*: string|false */
@@ -44,11 +36,6 @@ class MindtwoBasicValetDriver extends ValetDriver
 
     /**
      * Get the fully resolved path to the application's front controller.
-     *
-     * @param  string  $sitePath
-     * @param  string  $siteName
-     * @param  string  $uri
-     * @return string
      */
     public function frontControllerPath(string $sitePath, string $siteName, string $uri): ?string
     {
@@ -58,7 +45,7 @@ class MindtwoBasicValetDriver extends ValetDriver
 
         $dynamicCandidates = [
             $this->asActualFile($sitePath, $uri),
-            $this->asActualFile($sitePath . '/public', $uri),   
+            $this->asActualFile($sitePath.'/public', $uri),
             $this->asPhpIndexFileInDirectory($sitePath, $uri),
             $this->asHtmlIndexFileInDirectory($sitePath, $uri),
         ];
@@ -84,6 +71,7 @@ class MindtwoBasicValetDriver extends ValetDriver
                 $_SERVER['SCRIPT_FILENAME'] = $candidate;
                 $_SERVER['SCRIPT_NAME'] = '/index.php';
                 $_SERVER['DOCUMENT_ROOT'] = $docroot;
+
                 return $candidate;
             }
         }

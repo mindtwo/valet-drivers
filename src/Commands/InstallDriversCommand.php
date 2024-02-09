@@ -8,9 +8,8 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class InstallDriversCommand extends Command
+class InstallDriversCommand extends BaseCommand
 {
-
     /**
      * @var string
      */
@@ -19,25 +18,22 @@ class InstallDriversCommand extends Command
     /**
      * @var string
      */
-    protected static $defaultDescription = 'Install the custom valet drivers used for mindtwo projects.';
-
+    protected static $defaultDescription = 'Effortlessly install custom valet drivers for enhanced development on mindtwo projects.';
 
     private OutputInterface $output;
 
     protected function configure(): void
     {
         $this
-            ->addOption('valet', null, InputOption::VALUE_NONE, 'Install the drivers for Laravel Valet using the default directory.')
-            ->addOption('herd', null, InputOption::VALUE_NONE, 'Install the drivers for Laravel Herd using the default directory.')
-            ->addOption('path', 'p', InputOption::VALUE_REQUIRED, 'Path to the valet drivers directory.')
-        ;
+            ->addOption('valet', null, InputOption::VALUE_NONE, 'Installs drivers for Laravel Valet in the default directory.')
+            ->addOption('herd', null, InputOption::VALUE_NONE, 'Installs drivers for Laravel Herd in the default directory.')
+            ->addOption('path', 'p', InputOption::VALUE_REQUIRED, 'Custom path for driver installation.');
+
     }
 
     /**
      * Execute the command
      *
-     * @param  InputInterface  $input
-     * @param  OutputInterface $output
      * @return int 0 if everything went fine, or an exit code.
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -70,11 +66,10 @@ class InstallDriversCommand extends Command
 
     private function installDriversToPath(string $path): void
     {
-        $sourcePath = __DIR__ . '/../../drivers/';
+        $sourcePath = __DIR__.'/../../drivers/';
 
-
-        $this->output->writeln('Installing drivers to ' . $path);
-        if (!is_dir($path)) {
+        $this->output->writeln('Installing drivers to '.$path);
+        if (! is_dir($path)) {
             $this->output->writeln('The specified path does not exist. Creating it...', OutputInterface::VERBOSITY_VERBOSE);
             mkdir($path, 0755, true);
         }
@@ -87,27 +82,16 @@ class InstallDriversCommand extends Command
 
             $filename = $fileinfo->getFilename();
 
-            if (is_file($path . $filename)) {
-                unlink($path . $filename);
+            if (is_file($path.$filename)) {
+                unlink($path.$filename);
             }
 
             $this->output->writeln(sprintf('Installing Driver: %s', $filename), OutputInterface::VERBOSITY_VERBOSE);
 
             symlink(
-                $sourcePath . $filename,
-                $path . $filename
+                $sourcePath.$filename,
+                $path.$filename
             );
         }
     }
-
-    private function getHerdDirectory(): string
-    {
-        return getenv('HOME') . '/Library/Application Support/Herd/config/valet/Drivers/';
-    }
-
-    private function getValetDirectory(): string
-    {
-        return getenv('HOME') . '/.config/valet/Drivers/';
-    }
-
 }
