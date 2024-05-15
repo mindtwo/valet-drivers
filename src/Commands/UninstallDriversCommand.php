@@ -3,23 +3,18 @@
 namespace Mindtwo\ValetDrivers\Commands;
 
 use DirectoryIterator;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
+#[AsCommand(
+    name: 'uninstall',
+    description: 'Effortlessly install custom valet drivers for enhanced development on mindtwo projects.'
+)]
 class UninstallDriversCommand extends BaseCommand
 {
-    /**
-     * @var string
-     */
-    protected static $defaultName = 'uninstall';
-
-    /**
-     * @var string
-     */
-    protected static $defaultDescription = 'Removes mindtwo custom valet drivers from both Valet and Herd unless specified otherwise.';
-
     private OutputInterface $output;
 
     protected function configure(): void
