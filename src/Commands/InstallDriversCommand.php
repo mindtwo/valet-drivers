@@ -3,18 +3,18 @@
 namespace Mindtwo\ValetDrivers\Commands;
 
 use DirectoryIterator;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
+#[AsCommand(
+    name: 'install',
+    description: 'Effortlessly install custom valet drivers for enhanced development on mindtwo projects.'
+)]
 class InstallDriversCommand extends BaseCommand
 {
-    /**
-     * @var string
-     */
-    protected static $defaultName = 'install';
-
     /**
      * @var string
      */
