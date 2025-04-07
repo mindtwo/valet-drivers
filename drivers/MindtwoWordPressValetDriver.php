@@ -60,6 +60,10 @@ class MindtwoWordPressValetDriver extends ValetDriver
             return $sitePath.'/public/lumen/index.php';
         }
 
+        if (strpos($uri, '/api/') === 0) {
+            return $sitePath.'/public/api/index.php';
+        }
+
         if ($uri !== '/' && file_exists($sitePath.'/public'.$uri)) {
             return $sitePath.'/public'.$uri;
         }
